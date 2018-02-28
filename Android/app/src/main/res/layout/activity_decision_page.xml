@@ -4,58 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.manueltenorio.androidskyrunner.MainActivity">
-
-    <Button
-        android:id="@+id/btnOnePlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="31dp"
-        android:text="1"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/btnTwoPlayer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <Button
-        android:id="@+id/btnTwoPlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="31dp"
-        android:text="2"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnOnePlayer"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+    tools:context="com.example.manueltenorio.androidskyrunner.DecisionPage">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/resultTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="112dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="134dp"
+        android:text="Result"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddOne" />
+
+    <Button
+        android:id="@+id/btnAddOne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        android:text="+1"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddTwo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerTextView" />
+
+    <Button
+        android:id="@+id/btnAddTwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Players ?"
-        android:textSize="34sp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="50dp"
+        android:text="+2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="164dp" />
+        app:layout_constraintStart_toEndOf="@+id/btnAddOne"
+        app:layout_constraintTop_toBottomOf="@+id/playerTextView" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/playerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="51dp"
-        android:text="Welcome to 21!"
-        android:textSize="46sp"
+        android:layout_marginTop="37dp"
+        android:text="Player"
+        android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </android.support.constraint.ConstraintLayout>
+
