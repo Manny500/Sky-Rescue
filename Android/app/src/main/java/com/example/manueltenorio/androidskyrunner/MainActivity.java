@@ -19,9 +19,21 @@ public class MainActivity extends AppCompatActivity {
         btnTwoPLayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent twoPlayerIntent = new Intent(getApplicationContext(), DecisionPage.class);
-                startActivity(twoPlayerIntent);
+                startActivity(getPlayers(2));
             }
         });
+
+        btnOnePLayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(getPlayers(1));
+            }
+        });
+    }
+
+    public Intent getPlayers(int value){
+        Intent PlayerIntent = new Intent(getApplicationContext(), DecisionPage.class);
+        PlayerIntent.putExtra("com.example.manueltenorio.androidskyrunner.numPlayers", value);
+        return PlayerIntent;
     }
 }
