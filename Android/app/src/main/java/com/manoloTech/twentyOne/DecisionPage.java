@@ -15,11 +15,13 @@ public class DecisionPage extends AppCompatActivity {
     private int counter = 0;
     private int numOfPlayers = 0;
     private int currentPlayer = rm.nextInt(2) + 1;
-    TextView playerTextView = null;
-    TextView resultTextView = null;
-    Button btnAddOne = null;
-    Button btnAddTwo = null;
-    Button btnPlayAgain = null;
+    private boolean computerEnabled = false;
+    private String playerStr = "";
+    private TextView playerTextView = null;
+    private TextView resultTextView = null;
+    private Button btnAddOne = null;
+    private Button btnAddTwo = null;
+    private Button btnPlayAgain = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,8 @@ public class DecisionPage extends AppCompatActivity {
     }
 
     public void onePlayerGame() {
+        computerEnabled = true;
+
         btnAddOne = (Button) findViewById(R.id.btnAddOne);
         btnAddTwo = (Button) findViewById(R.id.btnAddTwo);
 
@@ -54,19 +58,20 @@ public class DecisionPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addOne();
+                checkWin();
             }
         });
         btnAddTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addTwo();
+                checkWin();
             }
         });
-
     }
 
     public void twoPlayerGame() {
-        playerTextView.setText("player" + currentPlayer);
+        playerTextView.setText("Player " + currentPlayer);
 
         btnAddOne = (Button) findViewById(R.id.btnAddOne);
         btnAddTwo = (Button) findViewById(R.id.btnAddTwo);
@@ -99,13 +104,37 @@ public class DecisionPage extends AppCompatActivity {
         resultTextView.setText(counter + "");
     }
 
+    public void aiMove(){
+        int aiChoice = (rm.nextInt(2) + 1);
+        if(aiChoice == 1){
+            addOne();
+
+        }else{
+            addTwo();
+
+        }
+        checkWin();
+    }
+    public void switchTurns(){
+        if (currentPlayer == 1) {
+            currentPlayer = 2;
+            playerTextView.setText("Player: AI");
+            playerStr = "AI";
+            aiMove();
+
+        } else {
+            currentPlayer = 1;
+            playerTextView.setText("Player: 1");
+            playerStr = "Player: 1";
+        }
+    }
     public void switchPlayers() {
         if (currentPlayer == 1) {
             currentPlayer = 2;
         } else {
             currentPlayer = 1;
         }
-        playerTextView.setText("Player" + currentPlayer);
+        playerTextView.setText("Player " + currentPlayer);
     }
 
     public void checkWinner() {
@@ -114,6 +143,26 @@ public class DecisionPage extends AppCompatActivity {
             switchPlayers();
         } else{
             resultTextView.setText("Player " + currentPlayer + " wins!!!");
+            btnAddOne.setEnabled(false);
+            btnAddTwo.setEnabled(false);
+            btnPlayAgain.setVisibility(View.VISIBLE);
+
+            btnPlayAgain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent MainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(MainIntent);
+                }
+            });
+        }
+    }
+
+    public void checkWin() {
+        btnPlayAgain = (Button) findViewById(R.id.btnPlayAgain);
+        if (counter < 21) {
+            switchTurns();
+        } else{
+            resultTextView.setText(playerStr+ " wins!!!");
             btnAddOne.setEnabled(false);
             btnAddTwo.setEnabled(false);
             btnPlayAgain.setVisibility(View.VISIBLE);
