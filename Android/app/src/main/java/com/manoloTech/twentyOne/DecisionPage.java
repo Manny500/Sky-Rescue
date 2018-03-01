@@ -1,4 +1,4 @@
-package com.example.manueltenorio.androidskyrunner;
+package com.manoloTech.twentyOne;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,8 +25,8 @@ public class DecisionPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decision_page);
 
-        if (getIntent().hasExtra("com.example.manueltenorio.androidskyrunner.numPlayers")) {
-            numOfPlayers = getIntent().getExtras().getInt("com.example.manueltenorio.androidskyrunner.numPlayers");
+        if (getIntent().hasExtra("com.manoloTech.twentyOne.numPlayers")) {
+            numOfPlayers = getIntent().getExtras().getInt("com.manoloTech.twentyOne.numPlayers");
         }
 
         playerTextView = (TextView) findViewById(R.id.playerTextView);
