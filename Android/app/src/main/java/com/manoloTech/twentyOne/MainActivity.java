@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnOnePLayer = (Button) findViewById(R.id.btnOnePlayer);
         Button btnTwoPLayer = (Button) findViewById(R.id.btnTwoPlayer);
+        TextView btnHowToPlay = (TextView) findViewById(R.id.btnHowtoplay);
 
         btnTwoPLayer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,11 +32,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(getPlayers(1));
             }
         });
+
+        btnHowToPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent howToIntent = new Intent(getApplicationContext(), HowToPlay.class);
+                startActivity(howToIntent);
+            }
+        });
     }
 
     public Intent getPlayers(int value){
-        Intent PlayerIntent = new Intent(getApplicationContext(), DecisionPage.class);
-        PlayerIntent.putExtra("com.manoloTech.twentyOne.numPlayers", value);
-        return PlayerIntent;
+        Intent playerIntent = new Intent(getApplicationContext(), DecisionPage.class);
+        playerIntent.putExtra("com.manoloTech.twentyOne.numPlayers", value);
+        return playerIntent;
     }
 }

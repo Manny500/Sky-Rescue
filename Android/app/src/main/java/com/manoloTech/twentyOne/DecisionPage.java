@@ -19,6 +19,7 @@ public class DecisionPage extends AppCompatActivity {
     TextView resultTextView = null;
     Button btnAddOne = null;
     Button btnAddTwo = null;
+    Button btnPlayAgain = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +109,22 @@ public class DecisionPage extends AppCompatActivity {
     }
 
     public void checkWinner() {
+        btnPlayAgain = (Button) findViewById(R.id.btnPlayAgain);
         if (counter < 21) {
             switchPlayers();
         } else{
             resultTextView.setText("Player " + currentPlayer + " wins!!!");
             btnAddOne.setEnabled(false);
             btnAddTwo.setEnabled(false);
+            btnPlayAgain.setVisibility(View.VISIBLE);
+
+            btnPlayAgain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent MainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(MainIntent);
+                }
+            });
         }
     }
 }
