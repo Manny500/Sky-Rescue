@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.manueltenorio.twentyOne.com.manoloTech.twentyOne.DecisionPage">
+    tools:context="com.manoloTech.twentyOne.DecisionPage">
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7093564868978624/6771681668">
+    </com.google.android.gms.ads.AdView>
+
+    <!-- replace id with your own -->
 
     <TextView
         android:id="@+id/resultTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_above="@+id/btnPlayAgain"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
         android:text="Result"
         android:textSize="48sp"
         app:layout_constraintBottom_toTopOf="@+id/btnPlayAgain"
@@ -23,9 +37,12 @@
         android:id="@+id/btnAddOne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
+        android:layout_alignBaseline="@+id/btnAddTwo"
+        android:layout_alignBottom="@+id/btnAddTwo"
+        android:layout_alignLeft="@+id/adView"
+        android:layout_alignStart="@+id/adView"
+        android:layout_marginLeft="47dp"
+        android:layout_marginStart="47dp"
         android:text="+1"
         app:layout_constraintEnd_toStartOf="@+id/btnAddTwo"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +52,11 @@
         android:id="@+id/btnAddTwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="4dp"
+        android:layout_alignEnd="@+id/adView"
+        android:layout_alignRight="@+id/adView"
+        android:layout_below="@+id/playerTextView"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
         android:layout_marginTop="50dp"
         android:text="+2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,9 +67,10 @@
         android:id="@+id/playerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="37dp"
+        android:layout_alignEnd="@+id/resultTextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/resultTextView"
+        android:layout_marginTop="23dp"
         android:text="Player"
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,13 +82,13 @@
         android:id="@+id/btnPlayAgain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="116dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_above="@+id/adView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:text="Play Again?"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
 

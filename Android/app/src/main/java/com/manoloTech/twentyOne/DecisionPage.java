@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.Random;
 
 public class DecisionPage extends AppCompatActivity {
@@ -23,10 +28,33 @@ public class DecisionPage extends AppCompatActivity {
     private Button btnAddTwo = null;
     private Button btnPlayAgain = null;
 
+    private InterstitialAd mInterstitialAd;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decision_page);
+
+        //banner ad
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        //interstitial ad
+        mInterstitialAd = new InterstitialAd(this);
+        //replace id with your own
+        mInterstitialAd.setAdUnitId("ca-app-pub-7093564868978624~7042310253");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        mInterstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed(){
+                super.onAdClosed();
+                finish();
+            }
+        });
+
 
         if (getIntent().hasExtra("com.manoloTech.twentyOne.numPlayers")) {
             numOfPlayers = getIntent().getExtras().getInt("com.manoloTech.twentyOne.numPlayers");
@@ -46,6 +74,21 @@ public class DecisionPage extends AppCompatActivity {
                 twoPlayerGame();
                 break;
         }
+    }
+
+    public void showInterstitial(){
+
+        if(mInterstitialAd.isLoaded()){
+            mInterstitialAd.show();
+        }else{
+            finish();
+        }
+    }
+
+    @Override
+    public void onBackPressed(){
+        //show ad of app exit
+        showInterstitial();
     }
 
     public void onePlayerGame() {
