@@ -1,4 +1,4 @@
-package manolotech.com.skyrunner;
+package com.manolotech.skyrunner;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +8,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
-public class GameActivity extends AppCompatActivity {
+import manolotech.com.skyrunner.R;
+
+public class MainActivity extends AppCompatActivity {
 
     //Private Variables
     private InterstitialAd mInterstitialAd;
@@ -16,8 +18,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-
+        setContentView(R.layout.activity_main);
         //banner ad
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -36,6 +37,7 @@ public class GameActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }//end of onCreate
 
     /**
