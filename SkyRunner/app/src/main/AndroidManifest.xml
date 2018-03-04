@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.manolotech.skyrunner.GameActivity"></activity>
+
     </application>
 
 </manifest>
