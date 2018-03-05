@@ -1,7 +1,9 @@
 package com.manolotech.skyrunner;
 
+import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -13,9 +15,13 @@ public class GameActivity extends AppCompatActivity {
     //Private Variables
     private InterstitialAd mInterstitialAd;
 
+    //declaring gameview
+    private GameView gameView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_game);
 
         //banner ad
@@ -36,7 +42,37 @@ public class GameActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        //////////Logic
+
+        //Getting display object
+        Display display = getWindowManager().getDefaultDisplay();
+
+        //Getting the screen resolution into point object
+        Point size = new Point();
+        display.getSize(size);
+
+        //Initializing game view object
+        gameView = new GameView(this, size.x, size.y);
+
+        //adding it to contentview
+        setContentView(gameView);
+
     }//end of onCreate
+
+    //pausing the game when activity is paused
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameView.pause();
+    }
+
+    //running the game when activity is resumed
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameView.resume();
+    }
 
     /**
      * In order to show the ads
