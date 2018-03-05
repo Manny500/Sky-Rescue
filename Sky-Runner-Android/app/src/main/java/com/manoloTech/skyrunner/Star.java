@@ -1,4 +1,4 @@
-package com.manolotech.skyrunner;
+package com.manoloTech.skyrunner;
 
 import java.util.Random;
 

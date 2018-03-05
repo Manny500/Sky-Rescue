@@ -1,28 +1,27 @@
-package com.manolotech.skyrunner;
+package com.manoloTech.skyrunner;
 
-import android.graphics.Point;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
-public class GameActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     //Private Variables
     private InterstitialAd mInterstitialAd;
-
-    //declaring gameview
-    private GameView gameView;
+    private ImageButton buttonPlay; //image button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_main);
 
         //banner ad
         AdView mAdView = findViewById(R.id.adView);
@@ -43,35 +42,24 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        //////////Logic
+        //////LOGIC///////////
 
-        //Getting display object
-        Display display = getWindowManager().getDefaultDisplay();
+        //setting the orientation to landscape
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        //Getting the screen resolution into point object
-        Point size = new Point();
-        display.getSize(size);
+        //getting the button
+        buttonPlay = (ImageButton) findViewById(R.id.buttonPlay);
 
-        //Initializing game view object
-        gameView = new GameView(this, size.x, size.y);
-
-        //adding it to contentview
-        setContentView(gameView);
+        //adding a click listener///can be done in one method
+        buttonPlay.setOnClickListener(this);
 
     }//end of onCreate
 
-    //pausing the game when activity is paused
     @Override
-    protected void onPause() {
-        super.onPause();
-        gameView.pause();
-    }
+    public void onClick(View v) {
 
-    //running the game when activity is resumed
-    @Override
-    protected void onResume() {
-        super.onResume();
-        gameView.resume();
+        //starting game activity
+        startActivity(new Intent(this, GameActivity.class));
     }
 
     /**
@@ -94,4 +82,4 @@ public class GameActivity extends AppCompatActivity {
         //show ad of app exit
 
     }
-}
+}//end of main activity class

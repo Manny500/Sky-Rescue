@@ -1,4 +1,4 @@
-package com.manolotech.skyrunner;
+package com.manoloTech.skyrunner;
 
 import android.content.Context;
 import android.graphics.Bitmap;
