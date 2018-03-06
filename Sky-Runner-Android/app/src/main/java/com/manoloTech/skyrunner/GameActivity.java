@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -22,15 +26,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     //declaring gameview
     private GameView gameView;
 
-    private Button playAgainBtn = null;
+    private Button endGameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_game);
-
-        playAgainBtn = (Button) findViewById(R.id.playAgainBtn);
 
         //banner ad
         AdView mAdView = findViewById(R.id.adView);
@@ -60,15 +62,33 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         Point size = new Point();
         display.getSize(size);
 
+        FrameLayout game = new FrameLayout(this);
+
+        RelativeLayout gameWidgets = new RelativeLayout (this);
+
+        endGameButton = new Button(this);
+        TextView myText = new TextView(this);
+
+        endGameButton.setWidth(300);
+        endGameButton.setX(10);
+        endGameButton.setY(10);
+        endGameButton.setText("Play Again");
+        //endGameButton.setVisibility(View.INVISIBLE);
+        myText.setText("rIZ..i");
+
+        gameWidgets.addView(myText);
+        gameWidgets.addView(endGameButton);
+
         //Initializing game view object
         gameView = new GameView(this, size.x, size.y);
 
+        game.addView(gameView);
+        game.addView(gameWidgets);
+
         //adding it to content view
-        setContentView(gameView);
-
-        playAgainBtn.setVisibility(View.VISIBLE);
-
-        playAgainBtn.setOnClickListener(this);
+        setContentView(game);
+        //endGameButton.setVisibility(View.VISIBLE);
+        endGameButton.setOnClickListener(this);
 
     }//end of onCreate
 
@@ -76,7 +96,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        if (v == playAgainBtn) {
+        if (v == endGameButton) {
             //the transition from MainActivity to GameActivity
             startActivity(new Intent(GameActivity.this, MainActivity.class));
         }
