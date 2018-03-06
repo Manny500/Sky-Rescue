@@ -77,7 +77,7 @@ public class Player {
         //if the ship is boosting
         if (boosting) {
             //speeding up the ship
-            speed += 2;
+            speed += 10;
         } else {
             //slowing down if not boosting
             speed -= 5;

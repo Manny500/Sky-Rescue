@@ -1,6 +1,8 @@
 package com.manoloTech.skyrunner;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +10,8 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -40,10 +44,36 @@ public class GameView extends SurfaceView implements Runnable{
     //adding 3 enemies
     private int enemyCount = 3;
 
+    //defining a boom object to display blast
     private Boom boom;
+
+    //created a reference of the class Friend
+    private Friend friend;
+
+    //a screenX holder
+    int screenX;
+
+    //to count the number of Misses
+    int countMisses;
+
+    //indicator that the enemy has just entered the game screen
+    boolean flag ;
+
+    //an indicator if the game is Over
+    private boolean isGameOver ;
+
+    //the score holder
+    int score;
+
+    //the high Scores Holder
+    int highScore[] = new int[4];
+
+    //Shared Prefernces to store the High Scores
+    SharedPreferences sharedPreferences;
 
     //Class constructor
     public GameView(Context context, int screenX, int screenY) {
+
         super(context);
 
         //initializing player object
@@ -56,6 +86,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         //adding 100 stars
         int starNums = 100;
+
         for(int i = 0; i < starNums; i++){
             Star s = new Star(screenX, screenY);
             stars.add(s);
@@ -63,12 +94,33 @@ public class GameView extends SurfaceView implements Runnable{
 
         //initializing the enemy object array
         enemies = new Enemy[enemyCount];
+
         for(int i = 0; i < enemyCount; i++){
             enemies[i] = new Enemy(context, screenX, screenY);
         }
 
         //initializing the boom object
         boom = new Boom(context);
+
+        //initializing the Friend class object
+        friend = new Friend(context, screenX, screenY);
+
+        this.screenX = screenX;
+
+        countMisses = 0;
+
+        isGameOver = false;
+
+        //setting the score to 0 initially
+        score = 0;
+
+        sharedPreferences = context.getSharedPreferences("SHAR_PREF_NAME",Context.MODE_PRIVATE);
+
+        //initializing the array high scores with the previous values
+        highScore[0] = sharedPreferences.getInt("score1",0);
+        highScore[1] = sharedPreferences.getInt("score2",0);
+        highScore[2] = sharedPreferences.getInt("score3",0);
+        highScore[3] = sharedPreferences.getInt("score4",0);
     }
 
     /**
@@ -89,6 +141,7 @@ public class GameView extends SurfaceView implements Runnable{
             //to control
             control();
         }
+
     }
 
     /**
@@ -122,6 +175,8 @@ public class GameView extends SurfaceView implements Runnable{
      */
     private void update() {
 
+        score++;
+
         this.player.update();
 
         boom.setX(-300);
@@ -132,8 +187,15 @@ public class GameView extends SurfaceView implements Runnable{
             s.update(player.getSpeed());
         }
 
+
         //updating the enemy coordinate with respect to player speed
         for(int i = 0; i < enemyCount; i++){
+
+            //setting the flag true when the enemy just enters the screen
+            if(enemies[i].getX()==screenX){
+                flag = true;
+            }
+
             enemies[i].update(player.getSpeed());
 
             //if collision occurrs with player
@@ -145,7 +207,90 @@ public class GameView extends SurfaceView implements Runnable{
 
                 //moving enemy outside the left edge
                 enemies[i].setX(-300);
+
+            }else{
+
+                if(flag){
+
+                    //if player's x coordinate is more than the enemies's x coordinate.i.e. enemy has just passed across the player
+                    if(player.getDetectCollision().exactCenterX() >= enemies[i].getDetectCollision().exactCenterX()){
+
+                        //increment countMisses
+                        countMisses++;
+
+                        //setting the flag false so that the else part is executed only when new enemy enters the screen
+                        flag = false;
+
+                        //if no of Misses is equal to 3, then game is over.
+                        if(countMisses==3){
+
+                            //setting playing false to stop the game.
+                            playing = false;
+                            isGameOver = true;
+                        }
+
+                        //Assigning the scores to the high score integer array
+                        for(int h = 0 ; h < 4; h++){
+                            if(highScore[h] < score){
+
+                                final int finalI = h;
+                                highScore[h] = score;
+                                break;
+                            }
+                        }
+
+                        //storing the scores through shared Preferences
+                        SharedPreferences.Editor e = sharedPreferences.edit();
+
+                        for(int k = 0; k < 4; k++){
+
+                            int j = k+1;
+
+                            e.putInt("score"+j,highScore[k]);
+                        }
+                        e.apply();
+                    }
+                }
             }
+        }
+
+        //updating the friend ships coordinates
+        friend.update(player.getSpeed());
+
+        //checking for a collision between player and a friend
+        if(Rect.intersects(player.getDetectCollision(),friend.getDetectCollision())){
+
+            //displaying the boom at the collision
+            boom.setX(friend.getX());
+            boom.setY(friend.getY());
+
+            //setting playing false to stop the game
+            playing = false;
+
+            //setting the isGameOver true as the game is over
+            isGameOver = true;
+
+            //Assigning the scores to the high score integer array
+            for(int i = 0 ; i < 4; i++){
+                if(highScore[i] < score){
+
+                    final int finalI = i;
+                    highScore[i] = score;
+                    break;
+                }
+            }
+
+            //storing the scores through shared Preferences
+            SharedPreferences.Editor e = sharedPreferences.edit();
+
+            for(int i=0; i < 4; i++){
+
+                int j = i+1;
+
+                e.putInt("score"+j,highScore[i]);
+            }
+            e.apply();
+
         }
 
     }
@@ -157,6 +302,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         //checking if surface is valid
         if (surfaceHolder.getSurface().isValid()) {
+
             //locking the canvas
             canvas = surfaceHolder.lockCanvas();
             //drawing a background color for canvas
@@ -171,6 +317,10 @@ public class GameView extends SurfaceView implements Runnable{
                 paint.setStrokeWidth(s.getStarWidth());
                 canvas.drawPoint(s.getX(),s.getY(), paint);
             }
+
+            //drawing the score on the game screen
+            paint.setTextSize(80);
+            canvas.drawText("Score: "+score,1250,90,paint);
 
             //Drawing the player
             canvas.drawBitmap(
@@ -197,6 +347,24 @@ public class GameView extends SurfaceView implements Runnable{
                     paint
             );
 
+            //drawing friends image
+            canvas.drawBitmap(
+
+                    friend.getBitmap(),
+                    friend.getX(),
+                    friend.getY(),
+                    paint
+            );
+
+            //draw game Over when the game is over
+            if(isGameOver){
+
+                paint.setTextSize(150);
+                paint.setTextAlign(Paint.Align.CENTER);
+
+                int yPos=(int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+                canvas.drawText("Game Over",canvas.getWidth()/2,yPos,paint);
+            }
 
             //Unlocking the canvas
             surfaceHolder.unlockCanvasAndPost(canvas);

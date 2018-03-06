@@ -58,7 +58,7 @@ public class Enemy {
     public void update(int playerSpeed) {
 
         //decreasing x coordinate so that enemy will move right to left
-        x -= playerSpeed;
+        x -= 0;
         x -= speed;
 
         //if the enemy reaches the left edge

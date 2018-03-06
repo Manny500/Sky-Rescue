@@ -1,16 +1,20 @@
 package com.manoloTech.skyrunner;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements View.OnClickListener{
 
     //Private Variables
     private InterstitialAd mInterstitialAd;
@@ -18,11 +22,15 @@ public class GameActivity extends AppCompatActivity {
     //declaring gameview
     private GameView gameView;
 
+    private Button playAgainBtn = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_game);
+
+        playAgainBtn = (Button) findViewById(R.id.playAgainBtn);
 
         //banner ad
         AdView mAdView = findViewById(R.id.adView);
@@ -43,7 +51,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        //////////Logic
+        //////////Logic//////////////////
 
         //Getting display object
         Display display = getWindowManager().getDefaultDisplay();
@@ -58,7 +66,22 @@ public class GameActivity extends AppCompatActivity {
         //adding it to content view
         setContentView(gameView);
 
+        playAgainBtn.setVisibility(View.VISIBLE);
+
+        playAgainBtn.setOnClickListener(this);
+
     }//end of onCreate
+
+    // the onclick methods
+    @Override
+    public void onClick(View v) {
+
+        if (v == playAgainBtn) {
+            //the transition from MainActivity to GameActivity
+            startActivity(new Intent(GameActivity.this, MainActivity.class));
+        }
+
+    }
 
     //pausing the game when activity is paused
     @Override

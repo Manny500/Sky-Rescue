@@ -38,7 +38,7 @@ public class Friend {
 
         Random generator = new Random();
 
-        
+
         speed = generator.nextInt(6) + 10;
         x = screenX;
         y = generator.nextInt(maxY) - bitmap.getHeight();
@@ -49,7 +49,7 @@ public class Friend {
 
     public void update(int playerSpeed) {
 
-        x -= playerSpeed;
+        x -= 0;
         x -= speed;
 
         if (x < minX - bitmap.getWidth()) {
@@ -59,6 +59,12 @@ public class Friend {
             x = maxX;
             y = generator.nextInt(maxY) - bitmap.getHeight();
         }
+
+        //Adding the top, left, bottom and right to the rect object
+        detectCollision.left = x;
+        detectCollision.top = y;
+        detectCollision.right = x + bitmap.getWidth();
+        detectCollision.bottom = y + bitmap.getHeight();
     }
 
     //one more getter for getting the rect object
